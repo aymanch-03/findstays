@@ -1,0 +1,92 @@
+// Prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email              String?    @unique
+  password           String?
+  name               String?
+  image              String?
+  emailVerified      DateTime?
+  favoriteProperties Property[] @relation("FavoriteProperties")
+  createdAt          DateTime   @default(dbgenerated("now()"))
+  updatedAt          DateTime   @updatedAt
+
+  accounts     Account[]
+  reservations Reservation[]
+  properties   Property[]
+  reviews      Review[]
+}
+
+model Account {
+  id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String  @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Property {
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title        String
+  description  String
+  imgSrc       String
+  category     String
+  roomCount    Int
+  bedCount     Int
+  bathCount    Int
+  guestCount   Int
+  location     String
+  price        Float
+  userId       String        @db.Uuid
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+  reviews      Review[]
+  favoritedBy  User[]        @relation("FavoriteProperties")
+  createdAt    DateTime      @default(dbgenerated("now()"))
+  updatedAt    DateTime      @updatedAt
+}
+
+model Reservation {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  startDate  DateTime
+  endDate    DateTime
+  price      Float
+  userId     String   @db.Uuid
+  propertyId String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(dbgenerated("now()"))
+  updatedAt  DateTime @updatedAt
+}
+
+model Review {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  rating     Int
+  comment    String?
+  userId     String   @db.Uuid
+  propertyId String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id])
+  createdAt  DateTime @default(dbgenerated("now()"))
+  updatedAt  DateTime @updatedAt
+}
