@@ -8,6 +8,7 @@ import {
   User as UserIcon,
 } from "lucide-react"
 import { signOut } from "next-auth/react"
+import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Button } from "../ui/button"
 import {
@@ -64,9 +65,14 @@ export const UserCenter = ({ authUser }: Props) => {
             <BookHeart className="size-[18px] text-primary" />
             My Favorites
           </DropdownMenuItem>
-          <DropdownMenuItem className="gap-2 text-[15px]">
-            <Repeat className="size-[18px] text-primary" />
-            Host Mode
+          <DropdownMenuItem className="" asChild>
+            <Link
+              href={"/host"}
+              className="flex items-center gap-2 !text-[15px]"
+            >
+              <Repeat className="size-[18px] text-primary" />
+              Host Mode
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="gap-2 text-[15px]">
             <Settings className="size-[18px] text-primary" />

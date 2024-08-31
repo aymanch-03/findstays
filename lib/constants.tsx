@@ -1,3 +1,4 @@
+import { IStatWidget } from "@/components/pages/host/StatWidget"
 import { Car, Dumbbell, Utensils, Waves, Wifi } from "lucide-react"
 
 export type PropertyType = {

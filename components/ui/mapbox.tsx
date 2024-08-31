@@ -2,14 +2,14 @@
 import { useMapModal } from "@/hooks/useMapModal"
 import { usePropretyPopup } from "@/hooks/usePropertyPopup"
 import { CARD_DATA } from "@/lib/constants"
-import { cn, wait } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { AnimatePresence, motion } from "framer-motion"
 import { Expand, X } from "lucide-react"
 import "mapbox-gl/dist/mapbox-gl.css"
 import Link from "next/link"
 import { useParams, useSearchParams } from "next/navigation"
-import { useEffect, useMemo } from "react"
-import { Map, MapProvider, Marker, Popup, useMap } from "react-map-gl"
+import { useEffect } from "react"
+import { Map, Marker, Popup, useMap } from "react-map-gl"
 import { PropertyCard } from "../pages/properties/PropertyCard"
 import { Button } from "./button"
 type MapboxProps = {
@@ -22,7 +22,6 @@ export const Mapbox = ({ classname, id, isDialog = false }: MapboxProps) => {
   const { mainMap, modalMap } = useMap()
   const { openModal } = useMapModal()
   const { selectedProperty, setSelectedProperty } = usePropretyPopup()
-  const params = useParams()
   // Parameters are used to center the map in the previous location
   const searchParams = useSearchParams()
   const lat = searchParams.get("lat")

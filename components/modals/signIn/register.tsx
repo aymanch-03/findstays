@@ -2,20 +2,23 @@ import { registerUser } from "@/app/_actions/_actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FormDataRegisterSchema, RegisterInputs } from "@/lib/schema"
+import useUpdateQueryParams from "@/lib/urlModifier"
 import { wait } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Label } from "@radix-ui/react-label"
 import { LoaderCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { FormProps } from "./types"
 
 export const RegisterForm = ({
   setAuthError,
-  setIsUserNew,
   closeModal,
   setIsLoading,
   isLoading,
 }: FormProps) => {
+  const router = useRouter()
+  const updateURL = useUpdateQueryParams()
   const {
     register,
     reset,
@@ -36,7 +39,7 @@ export const RegisterForm = ({
       await wait(900)
 
       reset()
-      setIsUserNew(false)
+      updateURL({ tab: "login" })
     } catch (error) {
       setAuthError("An error occurred. Please try again.")
     } finally {
@@ -108,7 +111,7 @@ export const RegisterForm = ({
         </span>{" "}
         <span
           className="cursor-pointer font-normal hover:underline"
-          onClick={() => setIsUserNew(false)}
+          onClick={() => router.push("?tab=login")}
         >
           Sign In
         </span>

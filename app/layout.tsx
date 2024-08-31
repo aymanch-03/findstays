@@ -1,6 +1,7 @@
 import { Header } from "@/components/global/Header"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import { AuthModalProvider } from "@/providers/AuthModalProvider"
 import { ModalProvider } from "@/providers/MapModalProvider"
 import { PropertyPopupProvider } from "@/providers/PropertyPopupProvider"
 import type { Metadata } from "next"
@@ -70,18 +71,19 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const authUser = await useAuthUser()
-
   return (
     <html lang="en">
       <body className={cn(circular.className, "overflow-x-hidden")}>
-        <PropertyPopupProvider>
-          <TooltipProvider delayDuration={100}>
-            <ModalProvider>
-              <Header authUser={authUser} />
-              {children}
-            </ModalProvider>
-          </TooltipProvider>
-        </PropertyPopupProvider>
+        <AuthModalProvider>
+          <PropertyPopupProvider>
+            <TooltipProvider delayDuration={100}>
+              <ModalProvider>
+                <Header authUser={authUser} />
+                {children}
+              </ModalProvider>
+            </TooltipProvider>
+          </PropertyPopupProvider>
+        </AuthModalProvider>
       </body>
     </html>
   )

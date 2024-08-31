@@ -59,8 +59,6 @@
   }
 }
 
-
-
 @layer base {
   * {
     @apply border-border;
@@ -70,26 +68,26 @@
   }
 }
 
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none;
 }
 
 /* Leaflet Container Size */
-.leaflet-container{
+.leaflet-container {
   height: 100%;
   z-index: 10;
 }
 
 .my-leaflet-map-container img {
-    max-height: none;
+  max-height: none;
 }
 
-.mapboxgl-marker  path{
+.mapboxgl-marker path {
   fill: rgba(9, 9, 11, 0.7);
 }
 
 .propreties-list::-webkit-scrollbar-thumb {
-  background: rgba(9, 9, 11, 0.7); 
+  background: rgba(9, 9, 11, 0.7);
   border-radius: 10px;
 }
 .propreties-list::-webkit-scrollbar {
@@ -99,23 +97,28 @@ body::-webkit-scrollbar{
   background: rgba(9, 9, 11, 0.1);
 }
 
-.mapbox-gl, .mapboxgl-popup{
-  font-family: '__circular_7d24dd', '__circular_Fallback_7d24dd'
+.booking-requests-list::-webkit-scrollbar {
+  display: none;
 }
-.mapboxgl-popup{
+
+.mapbox-gl,
+.mapboxgl-popup {
+  font-family: "__circular_7d24dd", "__circular_Fallback_7d24dd";
+}
+.mapboxgl-popup {
   min-width: 320px !important;
   border-radius: 20px !important;
   margin-top: -20px;
   text-align: center;
 }
 
-.mapboxgl-popup-content{
+.mapboxgl-popup-content {
   background-color: transparent !important;
   box-shadow: none !important;
   text-align: left !important;
   font-size: 18px;
 }
-.mapboxgl-popup-tip{
+.mapboxgl-popup-tip {
   display: none;
   background-color: transparent !important;
   border: 0px;

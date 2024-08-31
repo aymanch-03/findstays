@@ -4,9 +4,21 @@ import { ExploreSection } from "@/components/pages/home/Explore"
 import Hero from "@/components/pages/home/Hero"
 import { MostVisited } from "@/components/pages/home/MostVisited"
 import { Testimonials } from "@/components/pages/home/Testimonials"
+import { useAuthModal } from "@/hooks/useAuthModal"
 import { motion } from "framer-motion"
+import { useSearchParams } from "next/navigation"
+import { useEffect } from "react"
 
 export default function Home() {
+  const searchParams = useSearchParams()
+  const auth = searchParams.get("auth")
+  const { openAuthModal } = useAuthModal()
+  useEffect(() => {
+    if (auth && auth === "false") {
+      openAuthModal()
+    }
+  }, [auth])
+
   return (
     <>
       <motion.section

@@ -13,17 +13,13 @@ import { RegisterForm } from "./register"
 
 type Props = {
   closeModal: () => void
-  isNewUser: boolean
-  setIsNewUser: (value: boolean) => void
+  tab: "login" | "register"
 }
 
-export const SignInModalBody = ({
-  closeModal,
-  isNewUser,
-  setIsNewUser,
-}: Props) => {
+export const SignInModalBody = ({ closeModal, tab }: Props) => {
   const [authError, setAuthError] = useState<string>("")
   const [isLoading, setIsLoading] = useState(false)
+  const isLogin = tab === "login"
   const handleSocialAuth = async () => {
     setIsLoading(true)
     try {
@@ -54,7 +50,7 @@ export const SignInModalBody = ({
               Welcome Back
             </span>
             <span className="font-text text-sm font-thin capitalize text-gray-500 md:text-base">
-              Please enter your details to {isNewUser ? "Register" : "Sign In"}
+              Please enter your details to {isLogin ? "Register" : "Sign In"}
             </span>
           </div>
         </div>
@@ -76,7 +72,7 @@ export const SignInModalBody = ({
           ) : (
             <Image src={Google} alt="Google" width={24} />
           )}
-          {isNewUser ? "Register" : "Sign In"} using Google
+          {isLogin ? "Register" : "Sign In"} using Google
         </Button>
         <Separator className="relative my-4 h-[0.5px] bg-black/10 before:absolute before:left-1/2 before:top-1/2 before:mx-auto before:-translate-x-1/2 before:-translate-y-1/2 before:bg-white before:px-3 before:text-center before:text-sm before:text-black before:content-['Or']" />
         {authError && (
@@ -84,11 +80,10 @@ export const SignInModalBody = ({
             <span className="text-red-600">{authError}</span>
           </div>
         )}
-        {!isNewUser ? (
+        {tab === "login" ? (
           <LoginForm
             setAuthError={setAuthError}
             closeModal={closeModal}
-            setIsUserNew={setIsNewUser}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
           />
@@ -96,7 +91,6 @@ export const SignInModalBody = ({
           <RegisterForm
             setAuthError={setAuthError}
             closeModal={closeModal}
-            setIsUserNew={setIsNewUser}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
           />

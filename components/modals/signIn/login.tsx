@@ -12,7 +12,6 @@ import { FormProps } from "./types"
 
 export const LoginForm = ({
   setAuthError,
-  setIsUserNew,
   closeModal,
   isLoading,
   setIsLoading,
@@ -39,7 +38,7 @@ export const LoginForm = ({
         router.refresh()
         return
       } else {
-        setAuthError(response?.error as string)
+        setAuthError("An error occurred. Please try again.")
       }
     } catch (error) {
       setAuthError("An error occurred. Please try again.")
@@ -104,7 +103,7 @@ export const LoginForm = ({
         </span>{" "}
         <span
           className="cursor-pointer font-normal hover:underline"
-          onClick={() => setIsUserNew(true)}
+          onClick={() => router.push("?tab=register")}
         >
           Register
         </span>

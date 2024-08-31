@@ -14,16 +14,20 @@ export async function registerUser(
 
   const { name, password, email } = result.data
 
-  const existingUser = await prisma.user.findUnique({ where: { email } })
-  if (existingUser) {
-    return { error: "User with this email already exists" }
+  try {
+    const existingUser = await prisma.user.findUnique({ where: { email } })
+    if (existingUser) {
+      return { error: "User with this email already exists" }
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12)
+
+    const user = await prisma.user.create({
+      data: { name, email, password: hashedPassword },
+    })
+
+    return { user }
+  } catch (error) {
+    return { error: "Error registering user" }
   }
-
-  const hashedPassword = await bcrypt.hash(password, 12)
-
-  const user = await prisma.user.create({
-    data: { name, email, password: hashedPassword },
-  })
-
-  return { user }
 }

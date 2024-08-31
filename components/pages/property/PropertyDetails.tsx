@@ -1,4 +1,5 @@
 "use client"
+import { Footer } from "@/components/global/Footer"
 import { Button } from "@/components/ui/button"
 import { FacilityBadge } from "@/components/ui/facility"
 import { Mapbox } from "@/components/ui/mapbox"
