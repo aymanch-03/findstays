@@ -19,9 +19,9 @@ export const SearchPropretyForm: FC = () => {
   //   libraries: ["places"],
   // })
 
-  const [date, setDate] = useState<DateRange | undefined>({
+  const [date, setDate] = useState<DateRange>({
     from: new Date(),
-    to: new Date(),
+    to: new Date(new Date().setDate(new Date().getDate() + 3)),
   })
   const [location, setLocation] = useState<string>("")
   const [guests, setGuests] = useState<number>(0)
@@ -66,6 +66,7 @@ export const SearchPropretyForm: FC = () => {
           value={guests}
           onChange={(value) => setGuests(parseInt(value))}
         />
+
         <FormField
           id="date"
           label="Check-in - Check-out"
@@ -76,6 +77,7 @@ export const SearchPropretyForm: FC = () => {
           value={date}
           onChange={setDate}
         />
+
         <Button
           type="submit"
           onClick={searchProprety}

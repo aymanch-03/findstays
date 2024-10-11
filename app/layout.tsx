@@ -6,6 +6,7 @@ import { ModalProvider } from "@/providers/MapModalProvider"
 import { PropertyPopupProvider } from "@/providers/PropertyPopupProvider"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import { Suspense } from "react"
 import { useAuthUser } from "./_actions/_authActions.ts"
 import "./globals.css"
 
@@ -74,16 +75,18 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={cn(circular.className, "overflow-x-hidden")}>
-        <AuthModalProvider>
-          <PropertyPopupProvider>
-            <TooltipProvider delayDuration={100}>
-              <ModalProvider>
-                <Header authUser={authUser} />
-                {children}
-              </ModalProvider>
-            </TooltipProvider>
-          </PropertyPopupProvider>
-        </AuthModalProvider>
+        <Suspense>
+          <AuthModalProvider>
+            <PropertyPopupProvider>
+              <TooltipProvider delayDuration={100}>
+                <ModalProvider>
+                  <Header authUser={authUser} />
+                  {children}
+                </ModalProvider>
+              </TooltipProvider>
+            </PropertyPopupProvider>
+          </AuthModalProvider>
+        </Suspense>
       </body>
     </html>
   )

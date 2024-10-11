@@ -92,14 +92,14 @@ export const FormField: React.FC<FieldProps> = ({
                 !value && "text-muted-foreground",
               )}
             >
-              {value && value?.from ? (
-                value && value.to ? (
+              {value && (value as DateRange).from ? (
+                value && (value as DateRange).to ? (
                   <>
-                    {format(value.from, "LLL dd, y")} -{" "}
-                    {format(value.to, "LLL dd, y")}
+                    {format((value as DateRange).from as Date, "LLL dd, y")} -{" "}
+                    {format((value as DateRange).to as Date, "LLL dd, y")}
                   </>
                 ) : (
-                  format(value.from, "LLL dd, y")
+                  format((value as DateRange).from as Date, "LLL dd, y")
                 )
               ) : (
                 <span
@@ -120,8 +120,8 @@ export const FormField: React.FC<FieldProps> = ({
             <Calendar
               initialFocus
               mode="range"
-              defaultMonth={value?.from}
-              selected={value}
+              defaultMonth={(value as DateRange)?.from}
+              selected={value as DateRange}
               onSelect={(date) => onChange && onChange(date)}
               numberOfMonths={2}
               disabled={{ before: new Date() }}

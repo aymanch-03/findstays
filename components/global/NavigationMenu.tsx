@@ -15,24 +15,18 @@ import {
 import { cn } from "@/lib/utils"
 import { Building2, LandPlot, User } from "lucide-react"
 
-const components: { title: string; href: string; description: string }[] = [
+const components: { title: string; href: string }[] = [
   {
-    title: "Alert Dialog",
+    title: "Privacy Policy",
     href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
-    title: "Hover Card",
+    title: "Support",
     href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
   },
   {
-    title: "Progress",
+    title: "Contact",
     href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
 ]
 
@@ -50,24 +44,7 @@ export function NavMenu({ textColor }: { textColor: string }) {
             Discover
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-primary/50 to-primary p-6 no-underline outline-none focus:shadow-md"
-                    href="/about-us"
-                  >
-                    <LandPlot className="h-6 w-6" color="white" />
-                    <div className="mb-2 mt-4 text-lg font-medium text-white">
-                      Rentlify
-                    </div>
-                    <p className="text-sm leading-tight text-muted">
-                      Effortlessly find and manage property reservations with
-                      Rentlify.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
+            <ul className="grid w-[400px] grid-cols-1 gap-3 p-3">
               <ListItem
                 href="/properties"
                 title="Properties"
@@ -76,14 +53,14 @@ export function NavMenu({ textColor }: { textColor: string }) {
                 Discover our range of rental properties and find your next home.
               </ListItem>
               <ListItem
-                href="/docs"
+                href="/host"
                 title="Host Mode"
                 icon={<User className="size-6 pt-0.5 text-primary" />}
               >
                 Start listing your property and earn with ease.
               </ListItem>
               <ListItem
-                href="/docs/primitives/typography"
+                href="#"
                 title="About Us"
                 icon={<Building2 className="size-5 text-primary" />}
               >
@@ -92,41 +69,27 @@ export function NavMenu({ textColor }: { textColor: string }) {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger
+        <NavigationMenuItem className="">
+          <NavigationMenuLink
             className={cn(
+              navigationMenuTriggerStyle(),
               textColor === "text-white" && "hover:text-white",
               textColor,
             )}
           >
             More
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-1">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink
-              className={cn(
-                navigationMenuTriggerStyle(),
-                textColor === "text-white" && "hover:text-white",
-                textColor,
-              )}
-            >
-              About Us
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink
+            className={cn(
+              navigationMenuTriggerStyle(),
+              textColor === "text-white" && "hover:text-white",
+              textColor,
+            )}
+          >
+            About Us
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
