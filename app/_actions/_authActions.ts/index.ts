@@ -1,4 +1,3 @@
-
 import { authOptions } from "@/lib/config/auth"
 import prisma from "@/lib/prismadb"
 import { getServerSession } from "next-auth"

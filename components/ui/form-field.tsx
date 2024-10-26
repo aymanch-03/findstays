@@ -1,5 +1,16 @@
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import { useSearchAddress } from "@/hooks/useSearchAddress"
 import { cn } from "@/lib/utils"
+import { CommandLoading } from "cmdk"
 import { format } from "date-fns"
+import { Check, ChevronsUpDown } from "lucide-react"
 import React from "react"
 import { DateRange } from "react-day-picker"
 import { Button } from "./button"
@@ -15,6 +26,7 @@ interface FieldProps {
   icon: React.ReactNode
   type?: string
   max?: number
+  min?: number
   value?: string | number | DateRange
   onChange?: (value: any) => void
   isDateRange?: boolean
@@ -29,6 +41,7 @@ export const FormField: React.FC<FieldProps> = ({
   icon,
   type = "text",
   max,
+  min,
   value,
   onChange,
   isDateRange = false,
@@ -47,11 +60,24 @@ export const FormField: React.FC<FieldProps> = ({
   const placeholderClasses =
     size === "lg" ? "text-lg md:text-xl" : "text-sm md:text-base"
 
+  const [open, setOpen] = React.useState(false)
+  const [inputValue, setInputValue] = React.useState("")
+
+  const {
+    query,
+    results,
+    loading,
+    handleSearch,
+    selectedItem,
+    setSelectedItem,
+  } = useSearchAddress()
+
   return (
     <div
       className={cn(
         "flex flex-col transition",
         size === "lg" ? "gap-2" : "gap-1",
+        id === "date" && "max-lg:col-span-2",
         classname,
       )}
     >
@@ -67,11 +93,86 @@ export const FormField: React.FC<FieldProps> = ({
         <span>{label}</span>
       </Label>
 
-      {!isDateRange ? (
+      {id === "location" ? (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className={cn(
+                "h-full w-full justify-between truncate border-none bg-gray-100 font-normal",
+                inputClasses,
+              )}
+            >
+              <p className="truncate">
+                {selectedItem
+                  ? `${selectedItem.label} (${selectedItem.raw.entityType})`
+                  : "Select place..."}
+              </p>
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-0">
+            <Command>
+              <CommandInput
+                placeholder="Search the place..."
+                onValueChange={(value: string) => handleSearch(value)}
+                className="w-full py-4 md:text-base"
+              />
+              <CommandList>
+                {loading ? (
+                  <CommandLoading>
+                    <CommandEmpty>Type to search</CommandEmpty>
+                  </CommandLoading>
+                ) : Object.keys(results).length > 0 ? (
+                  Object.entries(results).map(([type, items]) => (
+                    <CommandGroup
+                      key={type}
+                      heading={type.charAt(0).toUpperCase() + type.slice(1)}
+                    >
+                      {items.map((item, index) => (
+                        <CommandItem
+                          key={index}
+                          value={item.label}
+                          onSelect={(currentValue: string) => {
+                            const item = results[type]?.find(
+                              (item) => item.label === currentValue,
+                            )
+                            setInputValue(
+                              currentValue === inputValue ? "" : currentValue,
+                            )
+                            setSelectedItem(item ?? null)
+                            onChange && onChange(item ?? null)
+                            setOpen(false)
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              inputValue === item.label
+                                ? "opacity-100"
+                                : "opacity-0",
+                            )}
+                          />
+                          {item.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  ))
+                ) : (
+                  <CommandEmpty>No results found.</CommandEmpty>
+                )}
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      ) : !isDateRange ? (
         <Input
           id={id}
           type={type}
           max={max}
+          min={min || undefined}
           value={value as string}
           onChange={(e) => onChange && onChange(e.target.value)}
           className={cn(

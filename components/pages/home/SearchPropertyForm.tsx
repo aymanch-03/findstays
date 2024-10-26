@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { FormField } from "@/components/ui/form-field"
+import { useSearchAddress } from "@/hooks/useSearchAddress"
 import { motion } from "framer-motion"
 import { CalendarRange, MapPin, User } from "lucide-react"
 import { FC, useState } from "react"
@@ -14,25 +15,13 @@ interface SearchProprety {
 }
 
 export const SearchPropretyForm: FC = () => {
-  // const { isLoaded, loadError } = useJsApiLoader({
-  //   googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-  //   libraries: ["places"],
-  // })
-
   const [date, setDate] = useState<DateRange>({
     from: new Date(),
     to: new Date(new Date().setDate(new Date().getDate() + 3)),
   })
   const [location, setLocation] = useState<string>("")
   const [guests, setGuests] = useState<number>(0)
-
-  // useEffect(() => {
-  //   console.log({
-  //     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-  //     isLoaded,
-  //     loadError,
-  //   })
-  // }, [isLoaded, loadError])
+  const { selectedItem } = useSearchAddress()
 
   const searchProprety = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -52,7 +41,11 @@ export const SearchPropretyForm: FC = () => {
           placeholder="Type location"
           icon={<MapPin />}
           size="lg"
-          value={location}
+          value={
+            selectedItem
+              ? `${selectedItem.label} (${selectedItem.raw.entityType})`
+              : ""
+          }
           onChange={setLocation}
         />
         <FormField

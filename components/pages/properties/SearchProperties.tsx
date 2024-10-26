@@ -12,7 +12,7 @@ export const SearchProperties = () => {
   return (
     <section className="z-10 gap-10 border-y border-y-black/5 bg-white py-4">
       <div className="container">
-        <form className="grid grid-cols-2 gap-6 max-md:container md:w-[700px] md:grid-cols-[1fr_1fr_1fr]">
+        <form className="grid grid-cols-2 gap-6 max-md:container lg:w-[900px] lg:grid-cols-[1fr_1fr_1fr]">
           <FormField
             id="location"
             label="Location"
