@@ -19,8 +19,8 @@ const Hero: FC = () => {
           </h1>
           <p className="w-full text-center text-base font-normal !leading-[1.9] md:text-lg lg:w-2/3 lg:text-left lg:text-xl">
             Welcome to our hotel booking platform, where your travel experience
-            becomes easterane more enoaole. Wiin our platom, you can elscoverine
-            pemeet accommodation toryour stay worldwide.
+            becomes easier and more enjoyable. With our platform, you can
+            discover perfect accommodation for your stay worldwide.
           </p>
         </motion.div>
         <motion.div
